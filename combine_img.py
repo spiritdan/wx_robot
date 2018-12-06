@@ -4,12 +4,12 @@ import os
 
 
 # 定义图像拼接函数
-def image_compose(IMAGES_PATH,filename,output_path):
+def image_compose(IMAGES_PATH,filename,output_path,extension):
     #IMAGES_PATH = '.\\tmp\\'  # 图片集地址
     IMAGES_FORMAT = ['.jpg', '.JPG', 'png', 'PNG']  # 图片格式
     #IMAGE_ROW = 20  # 图片间隔，也就是合并成一张图后，一共有几行
     IMAGE_COLUMN = 1  # 图片间隔，也就是合并成一张图后，一共有几列
-    IMAGE_SAVE_PATH = output_path+filename+'.jpg'  # 图片转换后的地址
+    IMAGE_SAVE_PATH = output_path+filename+extension  # 图片转换后的地址
     image_names = []
     # 获取图片集地址下的所有图片名称
     for name in os.listdir(IMAGES_PATH):
@@ -29,5 +29,6 @@ def image_compose(IMAGES_PATH,filename,output_path):
             height=from_image.height
             to_image.paste(from_image, ((x - 1) * width, (y - 1) * height))
     print("保存字符画中")
-    return to_image.save(IMAGE_SAVE_PATH)  # 保存新图
+    to_image.save(IMAGE_SAVE_PATH)  # 保存新图
+    return IMAGE_SAVE_PATH
 

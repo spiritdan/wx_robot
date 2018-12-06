@@ -35,8 +35,7 @@ def save_txt(input_img,output_img):
     fp = open(input_img, 'rb')
     image_file = Image.open(fp)
     image_file = image_file.resize((int(image_file.size[0] * width*2 ), int(image_file.size[1] * height )))  # 调整图片大小
-    print
-    u'Info:', image_file.size[0], ' ', image_file.size[1], ' ', count
+
     img_txt=transform1(image_file)
 
     print('正在生成文字...')
@@ -44,5 +43,6 @@ def save_txt(input_img,output_img):
     tmp.write(img_txt)
     tmp.close()
     print('文字已生成')
-
-
+#input_img='.\\input_img\\181206-132249.png'
+#output_img='.\\txt\\181206-132249.txt'
+#save_txt(input_img,output_img)
