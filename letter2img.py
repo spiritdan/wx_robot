@@ -3,7 +3,7 @@ from io import StringIO
 import os
 from PIL import Image, ImageFont, ImageDraw
 import pygame
-def convert(text,index):
+def convert(filename,text,index,tmp_path):
     pygame.init()
     #text = "this is a test,test 123\nfdsfadfadfafadfa\nljfdskljflsdakjfldaskjflskdjflk\ntrtrrewrtert"
     im = Image.new("RGB", (300, 50), (255, 255, 255))
@@ -12,13 +12,12 @@ def convert(text,index):
     fontpath = "C:\\Windows\\Fonts"
     font = pygame.font.Font(os.path.join(fontpath, "simsun.ttc"), 14) #dr.text((10, 5), text, font=font, fill="#000000")
     rtext = font.render(text, True, (0, 0, 0), (255, 255, 255))
-    pygame.image.save(rtext, "c:\\tmp\\t{0}.png".format(index))
+    index='{:0>4}'.format(index)
+    if not os.path.exists(tmp_path+"{0}\\".format(filename,index)):
+        os.makedirs(tmp_path+"{0}\\".format(filename,index))
+    #print(tmp_path + "{0}\\{0}{1}.png".format(filename,index))
+    pygame.image.save(rtext,tmp_path + "{0}\\{0}{1}.png".format(filename,index))
 
-file=open("c:\\tmp\\output.txt")
-j=0
-for i in file.readlines():
-    convert(i,j)
-    j=j+1
 #SIO编码的问题
 #sio = StringIO()
 #print(type(rtext))

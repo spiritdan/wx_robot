@@ -1,35 +1,48 @@
-# -*- coding:utf-8 -*-
+# -*- coding: utf-8 -*-
 from PIL import Image
+import time
 
-IMG = 'c:\\tmp\\IMG_1436.JPG'
-
-WIDTH = 60
-HEIGHT = 45
-
-ascii_char = list("$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,\"^`'. ")
+codeLib = '''@dB%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,"^`'. '''  # 生成字符画所需的字符集
+# codeLib = '''1234567890-=qwertyuiop[]\asdfghjkl;'zxcvbnm,./!@#$%^&*()_+|}{":?><QWERTYUIOPASDFGHJKLMNBVCXZ '''  # 生成字符画所需的字符集
+count = len(codeLib)
 
 
-# 将256灰度映射到70个字符上
-def get_char(r, g, b, alpha=256):  # alpha透明度
-    if alpha == 0:
-        return ' '
-    length = len(ascii_char)
-    gray = int(0.2126 * r + 0.7152 * g + 0.0722 * b)  # 计算灰度
-    unit = (256.0 + 1) / length
-    return ascii_char[int(gray / unit)]  # 不同的灰度对应着不同的字符
-    # 通过灰度来区分色块
+def transform1(image_file):
+    image_file = image_file.convert("L")  # 转换为黑白图片，参数"L"表示黑白模式
+    codePic = ''
+    for h in range(0, image_file.size[1]):  # size属性表示图片的分辨率，'0'为横向大小，'1'为纵向
+        for w in range(0, image_file.size[0]):
+            gray = image_file.getpixel((w, h))  # 返回指定位置的像素，如果所打开的图像是多层次的图片，那这个方法就返回一个元组
+            codePic = codePic + codeLib[int(((count - 1) * gray) / 256)]  # 建立灰度与字符集的映射
+        codePic = codePic + '\r\n'
+    return codePic
 
 
-if __name__ == '__main__':
-    im = Image.open(IMG)
-    im = im.resize((WIDTH, HEIGHT), Image.NEAREST)
-    txt = ""
-    for i in range(HEIGHT):
-        for j in range(WIDTH):
-            txt += get_char(*im.getpixel((j, i)))
-        txt += '\n'
+def transform2(image_file):
+    codePic = ''
+    for h in range(0, image_file.size[1]):
+        for w in range(0, image_file.size[0]):
+            g, r, b = image_file.getpixel((w, h))
+            gray = int(r * 0.299 + g * 0.587 + b * 0.114)
+            codePic = codePic + codeLib[int(((count - 1) * gray) / 256)]
+        codePic = codePic + '\r\n'
+    return codePic
 
-    print(txt)
-    # 写入文件
-    with open("c:\\tmp\\output.txt", 'w') as f:
-        f.write(txt)  
+def save_txt(input_img,output_img):
+    width=0.1
+    height=0.1
+
+    fp = open(input_img, 'rb')
+    image_file = Image.open(fp)
+    image_file = image_file.resize((int(image_file.size[0] * width*2 ), int(image_file.size[1] * height )))  # 调整图片大小
+
+    img_txt=transform1(image_file)
+
+    print('正在生成文字...')
+    tmp = open(output_img, 'w')
+    tmp.write(img_txt)
+    tmp.close()
+    print('文字已生成')
+#input_img='.\\input_img\\181206-132249.png'
+#output_img='.\\txt\\181206-132249.txt'
+#save_txt(input_img,output_img)
