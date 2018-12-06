@@ -4,7 +4,7 @@ import os
 
 
 # 定义图像拼接函数
-def image_compose(IMAGES_PATH,filename,output_path,extension):
+def image_compose(IMAGES_PATH,filename,output_path,extension,rate):
     #IMAGES_PATH = '.\\tmp\\'  # 图片集地址
     IMAGES_FORMAT = ['.jpg', '.JPG', 'png', 'PNG']  # 图片格式
     #IMAGE_ROW = 20  # 图片间隔，也就是合并成一张图后，一共有几行
@@ -28,7 +28,14 @@ def image_compose(IMAGES_PATH,filename,output_path,extension):
             width=from_image.width
             height=from_image.height
             to_image.paste(from_image, ((x - 1) * width, (y - 1) * height))
+    #图像等比压缩
+    #print(to_image.info)
+    width,height=to_image.size
+    print("压缩前："+str(to_image.size))
+    resize_image=to_image.resize((int(width * rate), int(height *rate)))
+    print("压缩后：" + str(resize_image.size))
+
     print("保存字符画中")
-    to_image.save(IMAGE_SAVE_PATH)  # 保存新图
+    resize_image.save(IMAGE_SAVE_PATH)  # 保存新图
     return IMAGE_SAVE_PATH
 

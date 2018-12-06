@@ -15,7 +15,7 @@ def convert(filename,text,index,tmp_path):
     index='{:0>4}'.format(index)
     if not os.path.exists(tmp_path+"{0}\\".format(filename,index)):
         os.makedirs(tmp_path+"{0}\\".format(filename,index))
-    print(tmp_path + "{0}\\{0}{1}.png".format(filename,index))
+    #print(tmp_path + "{0}\\{0}{1}.png".format(filename,index))
     pygame.image.save(rtext,tmp_path + "{0}\\{0}{1}.png".format(filename,index))
 
 #SIO编码的问题
