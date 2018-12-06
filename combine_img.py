@@ -28,5 +28,6 @@ def image_compose(IMAGES_PATH,filename,output_path):
             width=from_image.width
             height=from_image.height
             to_image.paste(from_image, ((x - 1) * width, (y - 1) * height))
+    print("保存字符画中")
     return to_image.save(IMAGE_SAVE_PATH)  # 保存新图
 
