@@ -3,18 +3,28 @@ from wxpy import *
 import img2letter,letter2img,combine_img,img2str_img
 import os
 import time
+import HMM
+import nltk
 bot = Bot()
-group_name = bot.groups().search('123')[0]
+print(bot.groups().search())
+group_name = bot.groups().search('Python小课-山顶群(4)')[0]
 ##发送信息
-group_name.send('刚对接了图灵机器人，@我 与图灵机器人聊天。直接在群里发图片，可转换成字符画。')
+group_name.send('@我 +一个关键词 来替杰伦写歌了。直接发送图片转字符画')
 SourceSavePath = '.\\input_img\\'
 
 @bot.register([group_name, Group], TEXT)
 def auto_reply(msg):
     if msg.is_at:
-        # 回复消息内容和类型
-        answer = tuling.chat(msg.text)
-        return answer
+        start = msg.text
+        print(start)
+        song = HMM.generate(start)
+        print('正在写歌')
+        print(type(song))
+        print(song)
+        # 回复消息内容和类型tuling
+        #answer = tuling.chat(msg.text)
+        #return answer
+        return song
 
 @bot.register([group_name, Group],PICTURE)
 def img_msg(msg):

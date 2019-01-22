@@ -43,6 +43,7 @@ def save_txt(input_img,output_img):
     tmp.write(img_txt)
     tmp.close()
     print('文字已生成')
-#input_img='.\\input_img\\181206-132249.png'
-#output_img='.\\txt\\181206-132249.txt'
-#save_txt(input_img,output_img)
+
+input_img='.\\input_img\\181206-132249.png'
+output_img='.\\txt\\181206-132249.txt'
+save_txt(input_img,output_img)

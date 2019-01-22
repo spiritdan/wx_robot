@@ -1,4 +1,9 @@
+import tuling
 from wxpy import *
+import img2letter,letter2img,combine_img,img2str_img
+import os
+import time
+import HMM
 
 bot = Bot()
 my_friend = bot.friends().search('领悟', sex=MALE, city='苏州')[0]
@@ -13,3 +18,6 @@ def reply(msg):
             return '没空'
 
 embed()
+
+
+msg=input()
